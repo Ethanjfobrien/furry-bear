@@ -20,21 +20,47 @@
   </head>
   <body>
 	<div class="container">
-		<button id="browseButton" type="button" class="btn btn-primary btn-lg btn-block">Block level button</button>
+    <form id="up-form">
+      <input type="file" multiple />
+      <button type="submit">Upload</button>
+    </form>
+		
 	</div>
 	<script>
-		var flow = new Flow({
+		/*var flow = new Flow({
 		  target:'/api/photo/redeem-upload-token', 
 		  query:{upload_token:'my_token'}
 		});
 		// Flow.js isn't supported, fall back on a different method
 		if(!flow.support) location.href = '/some-old-crappy-uploader';
 		
-		flow.assignBrowse(document.getElementById('browseButton'));
+		flow.assignBrowse(document.getElementById('browseButton'));*/
 	</script>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="dist/js/bootstrap.min.js"></script>
+    <script src="https://code.ospry.io/v1/ospry.js"></script>
+    <script>
+      var ospry = new Ospry('pk-test-doqaz6ek0w7dbj2j9w34ze5x');
+
+      var onUpload = function(err, metadata) {
+        ospry.get({
+          url: metadata.url,
+          maxHeight: 400,
+          imageReady: function(err, domImage) {
+            $('body').append(domImage);          
+          },
+        });
+      };
+
+      $('#up-form').submit(function(e) {
+        e.preventDefault();
+        ospry.up({
+          form: this,
+          imageReady: onUpload,
+        });
+      });
+    </script>
   </body>
 </html>
