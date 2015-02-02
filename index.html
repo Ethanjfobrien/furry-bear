@@ -49,7 +49,9 @@
           url: metadata.url,
           maxHeight: 400,
           imageReady: function(err, domImage) {
-            $('body').append(domImage);          
+            alert(metadata.url);
+			//$('body').append(domImage);
+			//location.reload();
           },
         });
       };
